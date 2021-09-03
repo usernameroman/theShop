@@ -12,7 +12,7 @@ namespace TheShop
 		private readonly IArticleRepository _articleRepository;
 		private readonly ILoggerService _logger;
 
-		private readonly List<ISupplierService> _suppliers;
+		private readonly List<ISupplierService> _suppliers = new List<ISupplierService>();
 		
 		public ShopService(IArticleRepository articleRepository, ILoggerService loggerService)
 		{
@@ -28,11 +28,27 @@ namespace TheShop
 		public void OrderAndSellArticle(int id, int maxExpectedPrice, int buyerId)
 		{
             #region ordering article
-            Article tempArticle = null;
-            var articleExists = Supplier1.ArticleInInventory(id);
 
-            Article article;
-            if (articleExists)
+            Article article = null;
+
+			foreach (var supplier in _suppliers)
+            {
+				if (!supplier.HasArticle(id))
+                {
+					continue;
+                }
+
+				var tempArticle = supplier.GetArticleById(id);
+				if (tempArticle.Price > maxExpectedPrice)
+                {
+					continue;
+                } 
+				else
+                {
+					article = tempArticle;
+                }
+            }
+            /*if (articleExists)
             {
                 tempArticle = Supplier1.GetArticle(id);
                 if (maxExpectedPrice < tempArticle.ArticlePrice)
@@ -55,9 +71,7 @@ namespace TheShop
                         }
                     }
                 }
-            }
-
-            article = tempArticle;
+            }*/
 			#endregion
 
 			#region selling article
@@ -67,7 +81,7 @@ namespace TheShop
 				throw new Exception("Could not order article");
 			}
 
-			logger.Debug("Trying to sell article with id=" + id);
+			_logger.Debug("Trying to sell article with id=" + id);
 
 			article.IsSold = true;
 			article.SoldDate = DateTime.Now;
@@ -75,12 +89,12 @@ namespace TheShop
 			
 			try
 			{
-				DatabaseDriver.Save(article);
-				logger.Info("Article with id=" + id + " is sold.");
+				_articleRepository.Add(article);
+				_logger.Info("Article with id=" + id + " is sold.");
 			}
 			catch (ArgumentNullException ex)
 			{
-				logger.Error("Could not save article with id=" + id);
+				_logger.Error("Could not save article with id=" + id);
 				throw new Exception("Could not save article with id");
 			}
 			catch (Exception)

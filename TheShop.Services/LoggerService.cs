@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using TheShop.Services.Interfaces;
 
 namespace TheShop.Services
 {
-	public class LoggerService
+    public class LoggerService: ILoggerService
 	{
 		public void Info(string message)
 		{
