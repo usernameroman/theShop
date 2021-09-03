@@ -3,6 +3,7 @@ using TheShop.Services.Interfaces;
 
 namespace TheShop.Services.Suppliers
 {
+	// we assume that this service is black box
 	public class SupplierService3 : ISupplierService
 	{
 		public bool HasArticle(int id)

@@ -7,7 +7,7 @@ namespace TheShop.Repository
 {
     public class ArticleRepository: IArticleRepository
 	{
-		private readonly List<Article> _articles = new List<Article>();
+		private readonly IList<Article> _articles = new List<Article>();
 
 		public Article GetById(int id)
 		{
