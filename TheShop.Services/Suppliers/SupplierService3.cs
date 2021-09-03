@@ -5,12 +5,12 @@ namespace TheShop.Services.Suppliers
 {
 	public class SupplierService3 : ISupplierService
 	{
-		public bool ArticleInInventory(int id)
+		public bool HasArticle(int id)
 		{
 			return true;
 		}
 
-		public Article GetArticle(int id)
+		public Article GetArticleById(int id)
 		{
 			return new Article()
 			{

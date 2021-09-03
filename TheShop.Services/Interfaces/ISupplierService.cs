@@ -4,8 +4,8 @@ namespace TheShop.Services.Interfaces
 {
     public interface ISupplierService
     {
-        bool ArticleInInventory(int id);
+        bool HasArticle(int id);
 
-        Article GetArticle(int id);
+        Article GetArticleById(int id);
     }
 }

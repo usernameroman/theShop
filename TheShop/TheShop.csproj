@@ -51,8 +51,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TheShop.Domain\TheShop.Domain.csproj">
+      <Project>{a514aa1a-5542-44f9-a0dc-88bab47dadc2}</Project>
+      <Name>TheShop.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TheShop.Repository\TheShop.Repository.csproj">
+      <Project>{b88722b5-cc99-4de6-bfb4-232b94c31300}</Project>
+      <Name>TheShop.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TheShop.Services\TheShop.Services.csproj">
-      <Project>{114bcf7d-8f32-4139-8f25-a5eed9c50924}</Project>
+      <Project>{e606126a-3bed-4188-98a5-530b70758075}</Project>
       <Name>TheShop.Services</Name>
     </ProjectReference>
   </ItemGroup>
