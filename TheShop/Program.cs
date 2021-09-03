@@ -16,8 +16,7 @@ namespace TheShop
 			try
 			{
 				//order and sell
-				var article = shopService.OrderArticle(1, 
-					);
+				var article = shopService.OrderArticle(1, 20);
 				shopService.SellArticle(10, article);
 			}
 			catch (Exception ex)
