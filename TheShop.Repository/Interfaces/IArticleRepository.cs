@@ -6,6 +6,6 @@ namespace TheShop.Repository.Interfaces
     {
         Article GetById(int id);
 
-        void Save(Article article);
+        void Add(Article article);
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TheShop.Domain;
+using TheShop.Repository.Interfaces;
 
 namespace TheShop.Repository
 {
-    public class ArticleRepository
-    {
+    public class ArticleRepository: IArticleRepository
+	{
 		private readonly List<Article> _articles = new List<Article>();
 
 		public Article GetById(int id)
@@ -13,7 +14,7 @@ namespace TheShop.Repository
 			return _articles.Single(x => x.Id == id);
 		}
 
-		public void Save(Article article)
+		public void Add(Article article)
 		{
 			_articles.Add(article);
 		}
