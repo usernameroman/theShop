@@ -12,6 +12,6 @@ namespace TheShop.Domain
 		public bool IsSold { get; set; }
 
 		public DateTime SoldDate { get; set; }
-		public int BuyerUserId { get; set; }
+		public int BuyerId { get; set; }
 	}
 }

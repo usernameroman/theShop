@@ -1,35 +1,34 @@
 ﻿using System;
 using TheShop.Repository;
 using TheShop.Services;
-using TheShop.Services.Suppliers;
 
 namespace TheShop
 {
-	internal class Program
+    internal class Program
 	{
 		private static void Main(string[] args)
 		{
-			var shopService = new ShopService(new ArticleRepository(), new LoggerService());
+			var articleRepository = new ArticleRepository();
 
-			shopService.AddSupplier(new SupplierService1());
-			shopService.AddSupplier(new SupplierService2());
-			shopService.AddSupplier(new SupplierService3());
+			var articleService = new ArticleService(articleRepository);
+			var shopService = new ShopService(articleRepository, new LoggerService(), new SupplierManager());
 
 			try
 			{
 				//order and sell
-				shopService.OrderAndSellArticle(1, 20, 10);
+				var article = shopService.OrderArticle(1, 20);
+				shopService.SellArticle(10, article);
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex);
+				Console.WriteLine(ex.Message);
 			}
 
 			try
 			{
 				//print article on console
-				var article = shopService.GetById(1);
-				Console.WriteLine("Found article with ID: " + article.Id);
+				var article = articleService.GetById(1);
+				Console.WriteLine($"Found article with ID: {article.Id}");
 			}
 			catch (Exception ex)
 			{
@@ -39,12 +38,12 @@ namespace TheShop
 			try
 			{
 				//print article on console				
-				var article = shopService.GetById(12);
-				Console.WriteLine("Found article with ID: " + article.Id);
+				var article = articleService.GetById(12);
+				Console.WriteLine($"Found article with ID: {article.Id}");
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("Article not found: " + ex);
+				Console.WriteLine($"Article not found: {ex.Message}");
 			}
 
 			Console.ReadKey();
