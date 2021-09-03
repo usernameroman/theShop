@@ -16,12 +16,13 @@ namespace TheShop
 			try
 			{
 				//order and sell
-				var article = shopService.OrderArticle(1, 20);
+				var article = shopService.OrderArticle(1, 
+					);
 				shopService.SellArticle(10, article);
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex.Message);
+				Console.WriteLine(ex);
 			}
 
 			try
@@ -32,7 +33,7 @@ namespace TheShop
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("Article not found: " + ex);
+				Console.WriteLine($"Article not found: {ex.Message}");
 			}
 
 			try
