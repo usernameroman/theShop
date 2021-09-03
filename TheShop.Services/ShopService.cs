@@ -1,31 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TheShop.Domain;
+using TheShop.Repository.Interfaces;
+using TheShop.Services.Interfaces;
 
 namespace TheShop
 {
 	public class ShopService
 	{
-		private DatabaseDriver DatabaseDriver;
-		private Logger logger;
+		private readonly IArticleRepository _articleRepository;
+		private readonly ILoggerService _logger;
 
-		private Supplier1 Supplier1;
-		private Supplier2 Supplier2;
-		private Supplier3 Supplier3;
+		private readonly List<ISupplierService> _suppliers;
 		
-		public ShopService()
+		public ShopService(IArticleRepository articleRepository, ILoggerService loggerService)
 		{
-			DatabaseDriver = new DatabaseDriver();
-			logger = new Logger();
-			Supplier1 = new Supplier1();
-			Supplier2 = new Supplier2();
-			Supplier3 = new Supplier3();
+			_articleRepository = articleRepository;
+			_logger = loggerService;
 		}
+
+		public void AddSupplier(ISupplierService supplier)
+        {
+			_suppliers.Add(supplier);
+        }
 
 		public void OrderAndSellArticle(int id, int maxExpectedPrice, int buyerId)
 		{
-
-
             #region ordering article
             Article tempArticle = null;
             var articleExists = Supplier1.ArticleInInventory(id);
@@ -91,109 +92,7 @@ namespace TheShop
 
 		public Article GetById(int id)
 		{
-			return DatabaseDriver.GetById(id);
+			return _articleRepository.GetById(id);
 		}
-	}
-
-	//in memory implementation
-	public class DatabaseDriver
-	{
-		private List<Article> _articles = new List<Article>();
-
-		public Article GetById(int id)
-		{
-            return _articles.Single(x => x.ID == id);
-		}
-
-		public void Save(Article article)
-		{
-			_articles.Add(article);
-		}
-	}
-
-	public class Logger
-	{
-		public void Info(string message)
-		{
-			Console.WriteLine("Info: " + message);
-		}
-
-		public void Error(string message)
-		{
-			Console.WriteLine("Error: " + message);
-		}
-
-		public void Debug(string message)
-		{
-			Console.WriteLine("Debug: " + message);
-		}
-	}
-
-	public class Supplier1
-	{
-		public bool ArticleInInventory(int id)
-		{
-			return true;
-		}
-
-		public Article GetArticle(int id)
-		{
-			return new Article()
-			{
-				ID = 1,
-				Name_of_article = "Article from supplier1",
-				ArticlePrice = 458
-			};
-		}
-	}
-
-	public class Supplier2
-	{
-		public bool ArticleInInventory(int id)
-		{
-			return true;
-		}
-
-		public Article GetArticle(int id)
-		{
-			return new Article()
-			{
-				ID = 1,
-				Name_of_article = "Article from supplier2",
-				ArticlePrice = 459
-			};
-		}
-	}
-
-	public class Supplier3
-	{
-		public bool ArticleInInventory(int id)
-		{
-			return true;
-		}
-
-		public Article GetArticle(int id)
-		{
-			return new Article()
-			{
-				ID = 1,
-				Name_of_article = "Article from supplier3",
-				ArticlePrice = 460
-			};
-		}
-	}
-
-	public class Article
-	{
-		public int ID { get; set; }
-
-		public string Name_of_article { get; set; }
-
-		public int ArticlePrice { get; set; }
-		public bool IsSold { get; set; }
-
-		public DateTime SoldDate { get; set; }
-		public int BuyerUserId { get; set; }
-	}
-
+	}	
 }
